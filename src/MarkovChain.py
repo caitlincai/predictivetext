@@ -8,7 +8,9 @@ def tokenize(text):
 
 def build_matrix(words):
     vocab = list(set(words)) # List of unique words
-    idx = {w: i for i, w in enumerate(vocab)} # Gives each word an index starting from 0
+    idx = {} 
+    for i, w in enumerate(vocab):
+        idx[w] = i # Gives each word an index starting from 0
     n = len(vocab) # Number of unique words
 
     counts = np.zeros((n, n)) # Zero n x n matrix
@@ -19,7 +21,7 @@ def build_matrix(words):
 
     # Divide each row by its sum so each row adds to 1
     # In other words, calculate the probabilities
-    sums = counts.sum(axis=1, keepdims=True)
+    sums = counts.sum(axis=1, keepdims=True) # Adds up each row of the matrix
     sums[sums == 0] = 1 # Avoid division by 0
     return counts / sums, vocab, idx
 
@@ -58,4 +60,4 @@ while True:
     seed = input("> ").strip()
     if seed == 'quit':
         break
-    print(" 🧒", generate(matrix, vocab, idx, seed or vocab[0]))
+    print(generate(matrix, vocab, idx, seed or vocab[0]))
