@@ -1,5 +1,5 @@
 # predictivetext
-Simple model utilizing Markov chains and matrices to generate text. Starter code written by [Claude](claude.ai) :)
+Simple model utilizing Markov chains and matrices to generate text. Starter code written by [claude](https://claude.ai) :)
 
 By Caitlin, Skyla, Sola (Analysis Honors 25-26)
 
