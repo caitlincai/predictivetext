@@ -36,11 +36,11 @@ def generate(matrix, vocab, idx, seed=None, length=20):
     words = [current]
     for _ in range(length - 1):
         probs = matrix[idx[current]] # Grab probability row for current word
-        current = np.random.choice(vocab, p=probs) # Take word with hghest probability
+        current = np.random.choice(vocab, p=probs) # Sample words based on probability
         words.append(current)
     return ' '.join(words)
 
-# --- Run ---
+# Run
 print("Paste text, type END when done:\n")
 lines = []
 while (line := input()) != "END": # Keep reading lines until the word "END" appears
@@ -49,7 +49,7 @@ while (line := input()) != "END": # Keep reading lines until the word "END" appe
 words = tokenize('\n'.join(lines)) # Clean up lines from the raw input
 matrix, vocab, idx = build_matrix(words) # Build transition probability matrix
 
-# Steady state: top 5 long-term frequent words
+# Steady state matrix
 ss = steady_state(matrix)
 top5 = sorted(zip(vocab, ss), key=lambda x: -x[1])[:5] # Sort steady state matrix by probability, take top 5
 print("\nTop 5 steady-state words:", [w for w, _ in top5])
