@@ -22,8 +22,12 @@ def build_matrix(words):
     # Divide each row by its sum so each row adds to 1
     # In other words, calculate the probabilities
     sums = counts.sum(axis=1, keepdims=True) # Adds up each row of the matrix
+
+    zero_rows = (sums == 0).flatten()
     sums[sums == 0] = 1 # Avoid division by 0
-    return counts / sums, vocab, idx
+    probs = counts / sums
+    probs[zero_rows] = 1.0 / n
+    return probs, vocab, idx
 
 def steady_state(matrix):
     # Raise matrix to the 100th power to find the steady state distribution
@@ -47,6 +51,7 @@ while (line := input()) != "END": # Keep reading lines until the word "END" appe
     lines.append(line)
 
 words = tokenize('\n'.join(lines)) # Clean up lines from the raw input
+input_length = len(words)
 matrix, vocab, idx = build_matrix(words) # Build transition probability matrix
 
 # Steady state matrix
@@ -60,4 +65,4 @@ while True:
     seed = input("> ").strip()
     if seed == 'quit':
         break
-    print(generate(matrix, vocab, idx, seed or vocab[0]))
+    print(generate(matrix, vocab, idx, seed or vocab[0], input_length))
